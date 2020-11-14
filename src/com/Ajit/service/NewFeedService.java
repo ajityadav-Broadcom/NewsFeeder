@@ -27,6 +27,14 @@ public class NewFeedService {
         if(userMap.containsKey()){
             throw  new AlreadyPresentUserException("");
         }
+    }
+    public void LoginUser(final String userName){
+
+    }
+    public void removeUser(final String userNAme){
+
+    }
+    public  void followUser(final String userName){
 
     }
 }
