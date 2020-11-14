@@ -28,10 +28,9 @@ public class CommandFactory {
         return _instance;
     }
 
-    public void executeCommand(String input) {
-        Command command = new Command(input);
+    public void executeCommand(Command command) {
         if (!commandExecutorMap.containsKey(command.getCommandType())) {
-            throw new InvalidCommandException("UNKnown Command is passed to process" + input);
+            throw new InvalidCommandException("UNKnown Command is passed to process" + command.getArgs().toString());
         }
         commandExecutorMap.get(command.getCommandType()).executeCommand(command);
     }

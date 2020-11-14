@@ -1,5 +1,6 @@
 package com.Ajit.command;
 
+import com.Ajit.Modal.User;
 import com.Ajit.exception.InvalidCommandException;
 import com.Ajit.service.NewFeedService;
 
@@ -17,8 +18,9 @@ public class SignUpCommandExecutor extends CommandExecutor {
     @Override
     public void executeCommand(Command command) {
         if (!validateCommand(command.getArgs())) {
-            throw new InvalidCommandException("Invalid command ");
+            throw new InvalidCommandException(command.getArgs().toString() + " Invalid command ");
         }
-
+        String[] args = command.getArgs();
+        newFeedService.addUser(new User(args[1], args[2]));
     }
 }
