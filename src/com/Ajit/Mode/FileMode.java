@@ -23,9 +23,13 @@ public class FileMode extends Mode {
         try {
             br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
-            while (!line.isEmpty()) {
+            while (line != null && !line.isEmpty()) {
                 Command command = new Command(line);
-                processCommand(command);
+                try {
+                    processCommand(command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 line = br.readLine();
             }
         } catch (IOException e) {

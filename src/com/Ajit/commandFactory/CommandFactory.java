@@ -22,6 +22,7 @@ public class CommandFactory {
         commandExecutorMap.put("DownVote", new DownVoteCommandExecutor(newFeedService));
         commandExecutorMap.put("UpVote", new UpVoteCommandExecutor(newFeedService));
         commandExecutorMap.put("ShowNewsFeed", new ShowNewsFeedCommandExecutor(newFeedService));
+        commandExecutorMap.put("Reply", new ReplyCommandExecutor(newFeedService));
     }
 
     public static synchronized CommandFactory getInstance(final NewFeedService newFeedService) {
@@ -33,6 +34,7 @@ public class CommandFactory {
 
     public void executeCommand(Command command) {
         if (!commandExecutorMap.containsKey(command.getCommandType())) {
+            System.out.println(command.getCommandType());
             throw new InvalidCommandException("UNKnown Command is passed to process" + command.getArgs().toString());
         }
         commandExecutorMap.get(command.getCommandType()).executeCommand(command);

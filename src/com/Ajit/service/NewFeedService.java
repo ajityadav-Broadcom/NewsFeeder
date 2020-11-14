@@ -4,8 +4,9 @@ import com.Ajit.Modal.Post;
 import com.Ajit.Modal.User;
 import com.Ajit.exception.AlreadyPresentUserException;
 import com.Ajit.exception.NoActiveUser;
+import com.Ajit.exception.NoSuchPostPresent;
 import com.Ajit.exception.NoSuchUserPresent;
-
+import com.Ajit.exception.LoginException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,8 @@ public class NewFeedService {
         if (!userMap.containsKey(userName)) {
             throw new NoSuchUserPresent(userName + " Invalid User");
         }
-        activeUser = userMap.get(userName);
+        this.activeUser = userMap.get(userName);
+        System.out.println("User is loged In");
     }
 
     public void removeUser(final String userName) {
@@ -54,6 +56,7 @@ public class NewFeedService {
     }
 
     public void followUser(final String userName) {
+        if (checkUserSet()) throw new LoginException("user is not loged in");
         if (!userMap.containsKey(userName)) {
             throw new NoSuchUserPresent(userName + " Invalid User");
         }
@@ -61,28 +64,45 @@ public class NewFeedService {
 
     public void addPost(Post post) {
         postMap.put(post.getId(), post);
+        if (!userPost.containsKey(post.getId())) {
+            userPost.put(activeUser.getUserName(), new ArrayList<>());
+        }
+        userPost.get(activeUser.getUserName()).add(post.getId());
+        printPost();
     }
 
 
     public void upvotePost(long postId) {
+        if (!postMap.containsKey(postId)) {
+            throw new NoSuchPostPresent("no post with postId" + String.valueOf(postId));
+        }
+        upvoteMap.put(postId, upvoteMap.getOrDefault(postId, (long) 0) + 1);
 
     }
 
     public void downVotePost(final long postId) {
-
+        if (!postMap.containsKey(postId)) {
+            throw new NoSuchPostPresent("no post with postId" + String.valueOf(postId));
+        }
+        downVote.put(postId, downVote.getOrDefault(postId, (long) 0) + 1);
     }
 
     public void replyPost(final long postId, final String message) {
 
     }
 
-    public List<Post> getAllPost() {
+    public List<Post> getAllPostOfUser() {
         if (activeUser == null) {
             throw new NoActiveUser("No user is logIn");
         }
         List<Long> postId = userPost.getOrDefault(activeUser.getUserName(), null);
         List<Post> res = postId.stream().map((e) -> (postMap.get(e))).collect(Collectors.toList());
         return res;
+    }
+
+    public List<Post> getAllPost() {
+        List<Post> postList = new ArrayList<>(postMap.values());
+        return postList;
     }
 
     public void addFollower(final String userName) {
@@ -93,5 +113,15 @@ public class NewFeedService {
             followerMap.put(activeUser.getUserName(), new ArrayList<>());
         }
         followerMap.get(activeUser.getUserName()).add(userName);
+    }
+
+    private boolean checkUserSet() {
+        return activeUser == null;
+    }
+
+    private void printPost() {
+        for (long id : postMap.keySet()) {
+            System.out.println(id);
+        }
     }
 }

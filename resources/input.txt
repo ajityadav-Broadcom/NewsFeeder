@@ -27,9 +27,9 @@ Login~Deacon
 Post~I am Deacon
 Login~John
 Follow_User~Paul
-UpVote~12
+UpVote~5
 Follow_User~Freedie
-DownVote~17
-Reply~15~I am your Big Fan Brian
-Reply~14~I am your Biggest Fan Freedie
+DownVote~6
+Reply~3~I am your Big Fan Brian
+Reply~4~I am your Biggest Fan Freedie
 ShowNewsFeed

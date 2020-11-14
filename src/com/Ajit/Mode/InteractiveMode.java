@@ -23,7 +23,11 @@ public class InteractiveMode extends Mode {
                 if (command.getCommandType().equals("Exit")) {
                     break;
                 }
-                processCommand(command);
+                try {
+                    processCommand(command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
