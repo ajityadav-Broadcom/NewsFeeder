@@ -13,12 +13,15 @@ public class CommandFactory {
     private Map<String, CommandExecutor> commandExecutorMap;
     private static CommandFactory _instance;
 
-    public CommandFactory(final NewFeedService newFeedService) {
+    private CommandFactory(final NewFeedService newFeedService) {
         this.commandExecutorMap = new HashMap<>();
         commandExecutorMap.put("Signup", new SignUpCommandExecutor(newFeedService));
         commandExecutorMap.put("Login", new LoginCommandExecutor(newFeedService));
         commandExecutorMap.put("Post", new PostCommandExecutor(newFeedService));
         commandExecutorMap.put("Follow_User", new FollowCommandExecutor(newFeedService));
+        commandExecutorMap.put("DownVote", new DownVoteCommandExecutor(newFeedService));
+        commandExecutorMap.put("UpVote", new UpVoteCommandExecutor(newFeedService));
+        commandExecutorMap.put("ShowNewsFeed", new ShowNewsFeedCommandExecutor(newFeedService));
     }
 
     public static synchronized CommandFactory getInstance(final NewFeedService newFeedService) {
